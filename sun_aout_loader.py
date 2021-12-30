@@ -250,14 +250,14 @@ def loadBinary(filename):
     if header.a_trsize > 0:
         print("  text relocations:", int(header.a_trsize / reloc_size))
         for (r_addr, flags) in iter_unpack(reloc_fmt, text_reloc):
-            r_symbolnum = (flags & 0xFFF0) >> 8
+            r_symbolnum = flags >> 8
             flags = flags & 0xFF
             reloc(text, mmap, r_addr, r_symbolnum, flags)
 
     if header.a_drsize > 0:
         print("  data relocations:", int(header.a_drsize / reloc_size))
         for (r_addr, flags) in iter_unpack(reloc_fmt, data_reloc):
-            r_symbolnum = (flags & 0xFFF0) >> 8
+            r_symbolnum = flags >> 8
             flags = flags & 0xFF
             reloc(data, mmap, r_addr, r_symbolnum, flags)
             
